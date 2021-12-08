@@ -47,7 +47,23 @@ spec:
                   name: cqrs-configmap
                   key: cqrs_redis_host
             - name: REDIS_PORT
-            valueFrom:
+              valueFrom:
                 configMapKeyRef:
                   name: cqrs-configmap
                   key: cqrs_redis_port
+          readinessProbe:
+            httpGet:
+              path: actuator/health
+              port: 8081
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 3
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: actuator/health
+              port: 8081
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+            periodSeconds: 8
+            failureThreshold: 1
