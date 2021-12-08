@@ -1,0 +1,13 @@
+#input the configuration here
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cqrs-configmap
+data:
+  cqrs_mongo_host: "mongo.host" # put yours
+  cqrs_mongo_port: "user-interface.properties"
+  cqrs_mongo_write_db: "writeDB"
+  cqrs_mongo_read_db: "readDB"
+  cqrs_redis_host: ""
+  cqrs_redis_port: ""

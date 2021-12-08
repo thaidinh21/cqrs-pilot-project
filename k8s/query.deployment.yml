@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'query-sv'
+  namespace: 'cqrs-pilot'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: query-sv
+  template:
+    metadata:
+      labels:
+        app: 'query-sv'
+    spec:
+      containers:
+        - image: <put docker img here>
+          imagePullPolicy: Always
+          name: 'mms-ui'
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: cqrs-configmap
+                  key: cqrs_mongo_host
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: cqrs-configmap
+                  key: cqrs_mongo_port
+            - name: MOGO_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: cqrs-configmap
+                  key: cqrs_mongo_read_db
+            - name: MONGO_USER
+              value: root
+            - name: MONGO_PASSWORD
+              value: example #TODO put into secret
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: cqrs-configmap
+                  key: cqrs_redis_host
+            - name: REDIS_PORT
+            valueFrom:
+                configMapKeyRef:
+                  name: cqrs-configmap
+                  key: cqrs_redis_port
